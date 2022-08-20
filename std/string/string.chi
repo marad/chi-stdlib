@@ -1,0 +1,133 @@
+package std/string
+
+fn reverse(s: string): string {
+  val len = length(s)
+  val oldCodePoints = codePoints(s)
+  val newCodePoints = array[int](len, 0)
+  var index = 0
+  while(index < len) {
+    newCodePoints[index] = (oldCodePoints[len-index-1])
+    index = index + 1
+  }
+  fromCodePoints(newCodePoints)
+}
+
+
+fn isWhitespace(codePoint: int): bool {
+  (28 <= codePoint && codePoint <= 32) || (9 <= codePoint && codePoint <= 14)
+}
+
+
+fn trim(s: string): string {
+  val len = length(s)
+  if (len > 0) {
+    val points = codePoints(s)
+    var start = 0
+    var end = len - 1
+    while(start < len && isWhitespace(points[start])) {
+      start = start + 1
+    }
+    while(end > 0 && isWhitespace(points[end])) {
+      end = end - 1
+    }
+    val substringLength = end - start + 1
+    if (substringLength > 0) {
+      substring(s, start, substringLength)
+    } else {
+      ""
+    }
+  } else {
+    s
+  }
+}
+
+
+fn trimStart(s: string): string {
+  val len = length(s)
+  if (len > 0) {
+    val points = codePoints(s)
+    var start = 0
+    while(start < len && isWhitespace(points[start])) {
+      start = start + 1
+    }
+    val substringLength = len - start
+    if (substringLength > 0) {
+      substring(s, start, substringLength)
+    } else {
+      ""
+    }
+  } else {
+    s
+  }
+}
+
+
+fn trimEnd(s: string): string {
+  val len = length(s)
+  if (len > 0) {
+    val points = codePoints(s)
+    var end = len - 1
+    while(end > 0 && isWhitespace(points[end])) {
+      end = end - 1
+    }
+    substring(s, 0, end+1)
+  } else {
+    s
+  }
+}
+
+
+fn startsWith(haystack: string, needle: string): bool {
+  val haystackLen = length(haystack)
+  val needleLen = length(needle)
+  if (needleLen <= haystackLen) {
+    val haystackPoints = codePoints(haystack)
+    val needlePoints = codePoints(needle)
+    var index = 0
+    var matches = true
+    while(index < needleLen) {
+      if (haystackPoints[index] != needlePoints[index]) {
+        matches = false
+      }
+      index = index + 1
+    }
+    matches
+  } else {
+    false
+  }
+}
+
+
+fn endsWith(haystack: string, needle: string): bool {
+  val haystackLen = length(haystack)
+  val needleLen = length(needle)
+  if (needleLen <= haystackLen) {
+    val haystackPoints = codePoints(haystack)
+    val needlePoints = codePoints(needle)
+    var haystackIndex = haystackLen - 1
+    var needleIndex = needleLen - 1
+    var matches = true
+    while(needleIndex >= 0) {
+      if (haystackPoints[haystackIndex] != needlePoints[needleIndex]) {
+        matches = false
+      }
+      haystackIndex = haystackIndex - 1
+      needleIndex = needleIndex - 1
+    }
+    matches
+  } else {
+    false
+  }
+}
+
+fn isEmpty(s: string): bool {
+  length(s) == 0
+}
+
+fn isBlank(s: string): bool {
+  isEmpty(trim(s))
+}
+
+fn concat(left: string, right: string): string {
+  left + right
+}
