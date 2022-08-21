@@ -1,0 +1,8 @@
+package std/lang
+
+import std/io { readString }
+
+fn load(filePath: string) {
+    val code = readString(filePath)
+    eval(code)
+}
