@@ -6,3 +6,6 @@ fn load(filePath: string) {
     val code = readString(filePath)
     eval(code)
 }
+
+data Option[T] = Just(value: T) | Nothing
+data Result[T, E] = Ok(value: T) | Err(error: E)

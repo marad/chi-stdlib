@@ -1,0 +1,35 @@
+package std/collections
+
+fn arrayOf[T](e1: T): array[T] {
+    array(1, e1)
+}
+
+fn arrayOf[T](e1: T, e2: T): array[T] {
+    val arr = array(2, e1)
+    arr[1] = e2 
+    arr
+}
+
+fn arrayOf[T](e1: T, e2: T, e3: T): array[T] {
+    val arr = array(3, e1)
+    arr[1] = e2 
+    arr[2] = e3
+    arr
+}
+
+fn arrayOf[T](e1: T, e2: T, e3: T, e4: T): array[T] {
+    val arr = array(4, e1)
+    arr[1] = e2 
+    arr[2] = e3
+    arr[3] = e4
+    arr
+}
+
+fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T): array[T] {
+    val arr = array(5, e1)
+    arr[1] = e2 
+    arr[2] = e3
+    arr[3] = e4
+    arr[4] = e5
+    arr
+}
