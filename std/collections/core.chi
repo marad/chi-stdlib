@@ -1,5 +1,7 @@
 package std/collections
 
+import std/lang.unsafe { array as unsafeArray }
+
 fn arrayOf[T](e1: T): array[T] {
     array(1, e1)
 }
@@ -32,4 +34,39 @@ fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T): array[T] {
     arr[3] = e4
     arr[4] = e5
     arr
+}
+
+fn map[T, R](arr: array[T], f: (T) -> R): array[R] {
+    val arrSize = size(arr)
+    val result = unsafeArray[R](arrSize)
+    var index = 0
+    while(index < arrSize) {
+        val element = arr[index]
+        val tmp = f(element)
+        result[index] = tmp
+        index = index + 1
+    }
+    result
+}
+
+fn forEach[T](arr: array[T], f: (T) -> unit): unit {
+    val arrSize = size(arr)
+    var index = 0
+    while(index < arrSize) {
+        val element = arr[index]
+        f(element)
+        index = index + 1
+    }
+}
+
+fn fold[T, R](arr: array[T], initialValue: R, f: (R, T) -> R): R {
+    var arrSize = size(arr)
+    var index = 0
+    var acc = initialValue
+    while(index < arrSize) {
+        val element = arr[index]
+        acc = f(acc, element)
+        index = index + 1
+    }
+    acc
 }
