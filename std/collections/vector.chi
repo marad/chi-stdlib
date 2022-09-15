@@ -13,7 +13,7 @@ data Vector[T] = Vector(inst: any)
 val JVector = iop.lookupHostSymbol("cyclops.data.Vector")
 
 fn empty[T](): Vector[T] {
-    Vector(iop.invokeMember(JVector, "empty", array(0,0)))
+    Vector[T](iop.invokeMember(JVector, "empty", array(0,0)))
 }
 
 fn fill[T](element: T, size: int): Vector[T] {
