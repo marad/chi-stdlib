@@ -15,6 +15,10 @@ fn empty[K, V](): HashMap[K, V] {
     HashMap[K, V](iop.invokeMember(JHashMap, "empty", array(0,0)))
 }
 
+fn of[K,V](): HashMap[K,V] {
+    empty[K,V]()
+}
+
 fn of[K, V](k: K, v: V): HashMap[K,V] {
     val args = array[any](2, 0)
     args[0] = k

@@ -25,11 +25,55 @@ fn fill[T](element: T, size: int): Vector[T] {
 
 fn generate[T](generator: () -> T, limit: int): Vector[T] {
     val args = array[any](2,0)
-    args[0] = generator // TODO: native proxy: Supplier<T>
+    args[0] = generator
     args[1] = limit
     Vector(iop.invokeMember(JVector, "generate", args))
 }
 
+fn of[T](): Vector[T] {
+    empty[T]()
+}
+
+fn of[T](e1: T): Vector[T] {
+    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1)))
+}
+
+fn of[T](e1: T, e2: T): Vector[T] {
+    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2)))
+}
+
+
+fn of[T](e1: T, e2: T, e3: T): Vector[T] {
+    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3)))
+}
+
+fn of[T](e1: T, e2: T, e3: T, e4: T): Vector[T] {
+    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4)))
+}
+
+fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T): Vector[T] {
+    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4, e5)))
+}
+
+fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T): Vector[T] {
+    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4, e5, e6)))
+}
+
+fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T): Vector[T] {
+    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4, e5, e6, e7)))
+}
+
+fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T): Vector[T] {
+    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4, e5, e6, e7, e8)))
+}
+
+fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T): Vector[T] {
+    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4, e5, e6, e7, e8, e9)))
+}
+
+fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T): Vector[T] {
+    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10)))
+}
 
 // TODO: fix lambda argument passing
 // fn range(start: int, step: int, end: int): Vector[int] {
@@ -42,8 +86,6 @@ fn generate[T](generator: () -> T, limit: int): Vector[T] {
 //     val limit = (end-start) / step
 //     generate(rangeGen, limit)
 // }
-
-// TODO: of
 
 fn contains[T](self: Vector[T], element: T): bool {
     iop.invokeMember(self.inst, "containsValue", arrayOf(element)) as bool
