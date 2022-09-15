@@ -1,4 +1,4 @@
-package std/collections
+package std/collections.array
 
 import std/lang.unsafe { array as unsafeArray }
 
@@ -33,6 +33,68 @@ fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T): array[T] {
     arr[2] = e3
     arr[3] = e4
     arr[4] = e5
+    arr
+}
+
+fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T): array[T] {
+    val arr = array(6, e1)
+    arr[1] = e2 
+    arr[2] = e3
+    arr[3] = e4
+    arr[4] = e5
+    arr[5] = e6
+    arr
+}
+
+fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T): array[T] {
+    val arr = array(7, e1)
+    arr[1] = e2 
+    arr[2] = e3
+    arr[3] = e4
+    arr[4] = e5
+    arr[5] = e6
+    arr[6] = e7
+    arr
+}
+
+
+fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T): array[T] {
+    val arr = array(8, e1)
+    arr[1] = e2 
+    arr[2] = e3
+    arr[3] = e4
+    arr[4] = e5
+    arr[5] = e6
+    arr[6] = e7
+    arr[7] = e8
+    arr
+}
+
+fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T): array[T] {
+    val arr = array(9, e1)
+    arr[1] = e2 
+    arr[2] = e3
+    arr[3] = e4
+    arr[4] = e5
+    arr[5] = e6
+    arr[6] = e7
+    arr[7] = e8
+    arr[8] = e9
+    arr
+}
+
+
+fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T): array[T] {
+    val arr = array(10, e1)
+    arr[1] = e2 
+    arr[2] = e3
+    arr[3] = e4
+    arr[4] = e5
+    arr[5] = e6
+    arr[6] = e7
+    arr[7] = e8
+    arr[8] = e9
+    arr[9] = e10
     arr
 }
 

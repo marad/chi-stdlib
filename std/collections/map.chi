@@ -1,0 +1,97 @@
+package std/collections.map
+
+import std/lang.interop as iop
+import std/lang { load }
+
+fn l() {
+    load("chi-stdlib/std/collections/map.chi")
+}
+
+data HashMap[K, V] = HashMap(inst: any)
+
+val JHashMap = iop.lookupHostSymbol("cyclops.data.HashMap")
+
+fn empty[K, V](): HashMap[K, V] {
+    HashMap[K, V](iop.invokeMember(JHashMap, "empty", array(0,0)))
+}
+
+fn of[K, V](k: K, v: V): HashMap[K,V] {
+    val args = array[any](2, 0)
+    args[0] = k
+    args[1] = v
+    HashMap[K,V](iop.invokeMember(JHashMap, "of", args))
+}
+
+fn of[K, V](k1: K, v1: V, k2: K, v2: V): HashMap[K,V] {
+    val args = array[any](4, 0)
+    args[0] = k1
+    args[1] = v1
+    args[2] = k2
+    args[3] = v2
+    HashMap[K,V](iop.invokeMember(JHashMap, "of", args))
+}
+
+fn size[K,V](self: HashMap[K,V]): int {
+    val result = iop.invokeMember(self.inst, "size", array(0,0))
+    result as int
+}
+
+fn put[K,V](self: HashMap[K,V], key: K, value: V): HashMap[K,V] {
+    val args = array[any](2, 0)
+    args[0] = key
+    args[1] = value
+    val result = iop.invokeMember(self.inst, "put", args)
+    HashMap[K,V](result)
+}
+
+fn remove[K,V](self: HashMap[K,V], key: K): HashMap[K,V] {
+    val result = iop.invokeMember(self.inst, "remove", arrayOf(key))
+    HashMap[K,V](result)
+}
+
+fn removeKeys[K,V](self: HashMap[K,V], keys: array[K]): HashMap[K,V] {
+    val result = iop.invokeMember(self.inst, "removeAll", keys)
+    HashMap[K,V](result)
+}
+
+fn isEmpty[K,V](self: HashMap[K,V]): bool {
+    iop.invokeMember(self.inst, "isEmpty", array(0,0)) as bool
+}
+
+fn containsKey[K,V](self: HashMap[K,V], key: K): bool {
+    iop.invokeMember(self.inst, "containsKey", arrayOf(key)) as bool
+}
+
+fn get[K,V](self: HashMap[K,V], key: K): Option[V] {
+    val k = key
+    if (containsKey(self, k)) {
+        val jOption = iop.invokeMember(self.inst, "get", arrayOf(key))
+        val result = iop.invokeMember(jOption, "get", array(0,0))
+        Just(result as V)
+    } else {
+        Nothing
+    }
+}
+
+fn getOrElse[K,V](self: HashMap[K,V], key: K, alternative: V): V {
+    val args = array[any](2, 0)
+    args[0] = key
+    args[1] = alternative
+    val result = iop.invokeMember(self.inst, "getOrElse", args)
+    result as V
+}
+
+fn getOrElse[K,V](self: HashMap[K,V], key: K, alternative: () -> V): V {
+    val args = array[any](2, 0)
+    args[0] = key
+    args[1] = alternative
+    val result = iop.invokeMember(self.inst, "getOrElseGet", args)
+    result as V
+}
+
+// todo: map, mapValues, filter, filterKeys, filterValues
+
+fn mapKeys[K,V,R](self: HashMap[K,V], f: (K) -> R): HashMap[R,V] {
+    val result = iop.invokeMember(self.inst, "mapKeys", arrayOf(f))
+    HashMap[R, V](result)
+}

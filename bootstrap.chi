@@ -1,0 +1,10 @@
+import std/io { readString }
+import std/lang { eval }
+
+fn load(filePath: string) {
+    val code = readString(filePath)
+    eval(code)
+}
+
+load("chi-stdlib/std/lang/lang.chi")
+load("chi-stdlib/std/lang/interop.chi")

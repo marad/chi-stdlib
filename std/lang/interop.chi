@@ -1,2 +1,12 @@
 package std/lang.interop
 
+import std/collections.array as arr
+
+fn showMembers(obj: any) {
+    val members = getMembers(obj, false)
+    var index = 0
+    while(index < arr.size(members)) {
+        println(members[index] as string)
+        index = index + 1
+    }
+}
