@@ -119,7 +119,7 @@ fn filterValues[K,V](self: HashMap[K,V], f: (V) -> bool): HashMap[K,V] {
 
 fn filter[K,V](self: HashMap[K,V], f: (K, V) -> bool): HashMap[K,V] {
     val localF = f
-    val predicate = fn(tuple: any): bool {
+    val predicate = { tuple: any ->
         val k = iop.invokeMember(tuple, "_1", array(0,0))
         val v = iop.invokeMember(tuple, "_2", array(0,0))
         localF(k,v)
