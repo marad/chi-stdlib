@@ -1,7 +1,7 @@
 import std/io { readString }
 import std/lang { eval }
 
-fn load(filePath: string) {
+fn load(filePath: string): any {
     val code = readString(filePath)
     eval(code)
 }

@@ -2,7 +2,7 @@ package std/lang
 
 import std/io { readString }
 
-fn load(filePath: string) {
+fn load(filePath: string): any {
     val code = readString(filePath)
     eval(code)
 }
