@@ -10,24 +10,16 @@ fn l() {
 // TODO: fold, flatMap, reduce
 
 data Vector[T] = Vector(inst: any)
-val JVector = iop.lookupHostSymbol("cyclops.data.Vector")
+val JVector = iop.lookupHostSymbol("org.pcollections.TreePVector")
 
 fn empty[T](): Vector[T] {
     Vector[T](iop.invokeMember(JVector, "empty", array(0,0)))
 }
 
-fn fill[T](element: T, size: int): Vector[T] {
-    val args = array[any](2,0)
+fn singleton[T](element: T): Vector[T] {
+    val args = array[any](1,0)
     args[0] = element
-    args[1] = size
-    Vector(iop.invokeMember(JVector, "fill", args))
-}
-
-fn generate[T](generator: () -> T, limit: int): Vector[T] {
-    val args = array[any](2,0)
-    args[0] = generator
-    args[1] = limit
-    Vector(iop.invokeMember(JVector, "generate", args))
+    Vector(iop.invokeMember(JVector, "singleton", args))
 }
 
 fn of[T](): Vector[T] {
@@ -35,44 +27,48 @@ fn of[T](): Vector[T] {
 }
 
 fn of[T](e1: T): Vector[T] {
-    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1)))
+    singleton(e1)
 }
 
 fn of[T](e1: T, e2: T): Vector[T] {
-    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2)))
+    of(e1).add(e2)
 }
 
 
 fn of[T](e1: T, e2: T, e3: T): Vector[T] {
-    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3)))
+    of(e1, e2).add(e3)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T): Vector[T] {
-    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4)))
+    of(e1, e2, e3).add(e4)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T): Vector[T] {
-    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4, e5)))
+    of(e1, e2, e3, e4).add(e5)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T): Vector[T] {
-    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4, e5, e6)))
+    of(e1, e2, e3, e4, e5).add(e6)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T): Vector[T] {
-    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4, e5, e6, e7)))
+    of(e1, e2, e3, e4, e5, e6).add(e7)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T): Vector[T] {
-    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4, e5, e6, e7, e8)))
+    of(e1, e2, e3, e4, e5, e6, e7).add(e8)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T): Vector[T] {
-    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4, e5, e6, e7, e8, e9)))
+    of(e1, e2, e3, e4, e5, e6, e7, e8).add(e9)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T): Vector[T] {
-    Vector[T](iop.invokeMember(JVector, "of", arrayOf(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10)))
+    of(e1, e2, e3, e4, e5, e6, e7, e8, e9).add(e10)
+}
+
+fn generate[T](initialValue: T, nextValue: (T) -> Option[T]) {
+
 }
 
 // TODO: fix lambda argument passing
@@ -88,7 +84,7 @@ fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T):
 // }
 
 fn contains[T](self: Vector[T], element: T): bool {
-    iop.invokeMember(self.inst, "containsValue", arrayOf(element)) as bool
+    iop.invokeMember(self.inst, "contains", arrayOf(element)) as bool
 }
 
 fn add[T](self: Vector[T], element: T): Vector[T] {
@@ -96,18 +92,18 @@ fn add[T](self: Vector[T], element: T): Vector[T] {
 }
 
 fn remove[T](self: Vector[T], element: T): Vector[T] {
-    Vector(iop.invokeMember(self.inst, "removeValue", arrayOf(element)))
+    Vector(iop.invokeMember(self.inst, "minus", arrayOf(element)))
 }
 
 fn removeAt[T](self: Vector[T], index: int): Vector[T] {
-    Vector(iop.invokeMember(self.inst, "removeAt", arrayOf(index)))
+    Vector(iop.invokeMember(self.inst, "minus", arrayOf(index)))
 }
 
 fn insertAt[T](self: Vector[T], index: int, element: T): Vector[T] {
     val args = array[any](2,0)
     args[0] = index
     args[1] = element
-    Vector(iop.invokeMember(self.inst, "insertAt", args))
+    Vector(iop.invokeMember(self.inst, "plus", args))
 }
 
 fn size[T](self: Vector[T]): int {
@@ -115,41 +111,71 @@ fn size[T](self: Vector[T]): int {
 }
 
 fn get[T](self: Vector[T], index: int): Option[T] {
-    if (size(self) > index) {
-        val jOption = iop.invokeMember(self.inst, "get", arrayOf(index))
-        val result = iop.invokeMember(jOption, "get", array(0,0))
-        Just(result as T)
-    } else {
+    if (index < 0 || index >= self.size()) {
         Nothing
+    } else {
+        val value = iop.invokeMember(self.inst, "get", arrayOf(index))
+        Just(value)
     }
 }
 
 fn getOrElse[T](self: Vector[T], index: int, alternative: T): T {
-    val args = arrayOf[any](2,0)
-    args[0] = index
-    args[1] = alternative
-    iop.invokeMember(self.inst, "getOrElse", args) as T
+    self.getOrElse(index, { alternative })
 }
 
 fn getOrElse[T](self: Vector[T], index: int, alternative: () -> T): T {
-    val args = arrayOf[any](2,0)
-    args[0] = index
-    args[1] = alternative
-    iop.invokeMember(self.inst, "getOrElseGet", args) as T
-}
-
-fn map[T, R](self: Vector[T], f: (T) -> R): Vector[R] {
-    Vector[R](iop.invokeMember(self.inst, "map", arrayOf(f)))
+    val opt = self.get(index)
+    when {
+        opt is Just -> opt.value as T
+        else -> alternative()
+    }
 }
 
 fn forEach[T](self: Vector[T], f: (T) -> unit) {
-    map(self, f)
+    iop.invokeMember(self.inst, "forEach", arrayOf(f))
+}
+
+fn fold[T, R](self: Vector[T], initialValue: R, f: (T, R) -> R): R {
+    var current = initialValue
+    self.forEach({ it: T ->
+        current = f(it, current)
+        // This is a hack to make the lambda return `unit`
+        // can be removed after closing https://github.com/marad/chi-compiler-kotlin/issues/76
+        if (true) { 1 } 
+    })
+    current
+}
+
+fn map[T, R](self: Vector[T], f: (T) -> R): Vector[R] {
+    self.fold(empty[R](), { it: T, acc: Vector[R] ->
+        acc.add(f(it))
+    })
 }
 
 fn filter[T](self: Vector[T], f: (T) -> bool): Vector[T] {
-    Vector[T](iop.invokeMember(self.inst, "filter", arrayOf(f)))
+    self.fold(empty[T](), { it: T, acc: Vector[T] ->
+        if (f(it)) {
+            acc.add(it)
+        } else {
+            acc
+        }
+    })
 }
 
 fn filterNot[T](self: Vector[T], f: (T) -> bool): Vector[T] {
-    Vector[T](iop.invokeMember(self.inst, "filterNot", arrayOf(f)))
+    self.filter({ it: T -> !f(it) })
+}
+
+fn filterJust[T](self: Vector[Option[T]]): Vector[T] {
+    self.fold(empty[T](), { it: Option[T], acc: Vector[T] ->
+        if (it is Just) {
+            acc.add(it.value)
+        } else {
+            acc
+        }
+    })
+}
+
+fn sum(self: Vector[int]): int {
+    self.fold(0, { it: int, acc: int -> it + acc })
 }
