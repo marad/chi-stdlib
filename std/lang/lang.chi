@@ -9,3 +9,11 @@ fn load(filePath: string): any {
 
 data Option[T] = Just(value: T) | Nothing
 data Result[T, E] = Ok(value: T) | Err(error: E)
+
+
+fn map[T,R](option: Option[T], f: (T) -> R): Option[R] {
+    when {
+        option is Just -> Just(f(option.value))
+        else -> Nothing
+    }
+}

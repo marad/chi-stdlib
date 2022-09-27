@@ -9,14 +9,14 @@ fn l() {
 
 data Set[T] = Set(inst: any)
 
-val JHashSet = iop.lookupHostSymbol("cyclops.data.HashSet")
+val JavaType = iop.lookupHostSymbol("org.pcollections.HashTreePSet")
 
 fn empty[T](): Set[T] {
-    Set[T](iop.invokeMember(JHashSet, "empty", array(0,0)))
+    Set[T](iop.invokeMember(JavaType, "empty", array(0,0))) 
 }
 
-fn of[T](elements: array[T]): Set[T] {
-    Set[T](iop.invokeMember(JHashSet, "of", elements))
+fn singleton[T](element: T): Set[T] {
+    Set[T](iop.invokeMember(JavaType, "singleton", array(1, element)))
 }
 
 fn of[T](): Set[T] {
@@ -28,64 +28,54 @@ fn of[T](e: T): Set[T] {
 }
 
 fn of[T](e1: T, e2: T): Set[T] {
-    val args = arrayOf(e1, e2)
-    Set[T](iop.invokeMember(JHashSet, "of", args))
+    of(e1).add(e2)
 }
 
 fn of[T](e1: T, e2: T, e3: T): Set[T] {
-    val args = arrayOf(e1, e2, e3)
-    Set[T](iop.invokeMember(JHashSet, "of", args))
+    of(e1, e2).add(e3)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T): Set[T] {
-    val args = arrayOf(e1, e2, e3, e4)
-    Set[T](iop.invokeMember(JHashSet, "of", args))
+    of(e1, e2, e3).add(e4)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T): Set[T] {
-    val args = arrayOf(e1, e2, e3, e4, e5)
-    Set[T](iop.invokeMember(JHashSet, "of", args))
+    of(e1, e2, e3, e4).add(e5)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T): Set[T] {
-    val args = arrayOf(e1, e2, e3, e4, e5, e6)
-    Set[T](iop.invokeMember(JHashSet, "of", args))
+    of(e1, e2, e3, e4, e5).add(e6)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T): Set[T] {
-    val args = arrayOf(e1, e2, e3, e4, e5, e6, e7)
-    Set[T](iop.invokeMember(JHashSet, "of", args))
+    of(e1, e2, e3, e4, e5, e6).add(e7)
 }
 
 
 fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T): Set[T] {
-    val args = arrayOf(e1, e2, e3, e4, e5, e6, e7, e8)
-    Set[T](iop.invokeMember(JHashSet, "of", args))
+    of(e1, e2, e3, e4, e5, e6, e7).add(e8)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T): Set[T] {
-    val args = arrayOf(e1, e2, e3, e4, e5, e6, e7, e8, e9)
-    Set[T](iop.invokeMember(JHashSet, "of", args))
+    of(e1, e2, e3, e4, e5, e6, e7, e8).add(e9)
 }
 
 fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T): Set[T] {
-    val args = arrayOf(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10)
-    Set[T](iop.invokeMember(JHashSet, "of", args))
+    of(e1, e2, e3, e4, e5, e6, e7, e8, e9).add(e10)
 }
 
-fn singleton[T](element: T): Set[T] {
-    Set[T](iop.invokeMember(JHashSet, "singleton", array(1, element)))
-}
 
 fn contains[T](self: Set[T], value: T): bool {
-    val result = iop.invokeMember(self.inst, "containsValue", array(1,value))
+    val result = iop.invokeMember(self.inst, "contains", array(1,value))
     result as bool
 }
+
 
 fn isEmpty[T](self: Set[T]): bool {
     val result = iop.invokeMember(self.inst, "isEmpty", array(0,0))
     result as bool
 }
+
 
 fn size[T](self: Set[T]): int {
     val result = iop.invokeMember(self.inst, "size", array(0,0))
@@ -93,37 +83,36 @@ fn size[T](self: Set[T]): int {
 }
 
 fn add[T](self: Set[T], value: T): Set[T] {
-    val result = iop.invokeMember(self.inst, "add", array(1, value))
+    val result = iop.invokeMember(self.inst, "plus", array(1, value))
     Set[T](result)
 }
 
 fn remove[T](self: Set[T], value: T): Set[T] {
-    val result = iop.invokeMember(self.inst, "removeValue", array(1, value))
+    val result = iop.invokeMember(self.inst, "minus", array(1, value))
     Set[T](result)
 }
 
-fn add[T](self: Set[T], other: Set[T]): Set[T] {
-    val result = iop.invokeMember(self.inst, "plusAll", array(1, other.inst))
+fn forEach[T, R](self: Set[T], f: (T) -> R): Set[R] {
+    val result = iop.invokeMember(self.inst, "forEach", arrayOf(f))
     Set[T](result)
 }
-
-fn remove[T](self: Set[T], other: Set[T]): Set[T] {
-    val result = iop.invokeMember(self.inst, "removeAll", array(1, other.inst))
-    Set[T](result)
-}
-
-// TODO: flatMap, fold, reduce
 
 fn map[T, R](self: Set[T], f: (T) -> R): Set[R] {
-    val result = iop.invokeMember(self.inst, "map", arrayOf(f))
-    Set[T](result)
-}
-
-fn forEach[T](self: Set[T], f: (T) -> unit) {
-    map(self, f)
+    var result = empty[R]()
+    self.forEach({ element: T ->
+        result = result.add(f(element))
+    })
+    result
 }
 
 fn filter[T](self: Set[T], f: (T) -> bool): Set[T] {
-    val result = iop.invokeMember(self.inst, "filter", arrayOf(f))
-    Set[T](result)
+    var result = empty[T]()
+    self.forEach({ element: T ->
+        if (f(element)) {
+            result = result.add(element)
+        }
+    })
+    result
 }
+
+// TODO: flatMap, fold, reduce
