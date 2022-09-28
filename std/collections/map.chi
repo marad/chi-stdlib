@@ -26,6 +26,9 @@ fn singleton[K, V](k: K, v: V): HashMap[K,V] {
     HashMap[K,V](iop.invokeMember(JHashMap, "singleton", args))
 }
 
+fn of[K, V](): HashMap[K,V] {
+    empty[K,V]()
+}
 
 fn of[K, V](k: K, v: V): HashMap[K,V] {
     singleton(k, v)
