@@ -139,9 +139,6 @@ fn fold[T, R](self: Vector[T], initialValue: R, f: (T, R) -> R): R {
     var current = initialValue
     self.forEach({ it: T ->
         current = f(it, current)
-        // This is a hack to make the lambda return `unit`
-        // can be removed after closing https://github.com/marad/chi-compiler-kotlin/issues/76
-        if (true) { 1 } 
     })
     current
 }
