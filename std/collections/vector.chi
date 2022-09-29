@@ -67,8 +67,16 @@ fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T):
     of(e1, e2, e3, e4, e5, e6, e7, e8, e9).add(e10)
 }
 
-fn generate[T](initialValue: T, nextValue: (T) -> Option[T]) {
-
+fn generate[T](initialValue: T, limit: int, nextValue: (T) -> T): Vector[T] {
+    var index: int = 0
+    var vector = vectorOf(initialValue)
+    var lastValue = initialValue
+    while (index < limit) {
+        lastValue = nextValue(lastValue)
+        vector = vector.add(lastValue)
+        index = index + 1
+    }
+    vector
 }
 
 // TODO: fix lambda argument passing
