@@ -1,12 +1,28 @@
 package std/lang.interop
 
-import std/collections.array as arr
+data InteropValue(obj: any)
 
 fn showMembers(obj: any) {
     val members = getMembers(obj, false)
     var index = 0
-    while(index < arr.size(members)) {
+    while(index < members.size()) {
         println(members[index] as string)
         index = index + 1
     }
+}
+
+fn lookup(name: string): InteropValue {
+    InteropValue(lookupHostSymbol(name))
+}
+
+fn invoke(iv: InteropValue, name: string): InteropValue {
+    InteropValue(invokeMember(iv.obj, name, array(0,0)))
+}
+
+fn invoke(iv: InteropValue, name: string, args: array[any]): InteropValue {
+    InteropValue(invokeMember(iv.obj, name, args))
+}
+
+fn asInt(iv: InteropValue): int {
+    iv.obj as int
 }

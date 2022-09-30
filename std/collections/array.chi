@@ -2,6 +2,10 @@ package std/collections.array
 
 import std/lang.unsafe { array as unsafeArray }
 
+fn arrayOf[T](): array[T] {
+    unsafeArray[T](0)
+}
+
 fn arrayOf[T](e1: T): array[T] {
     array(1, e1)
 }
