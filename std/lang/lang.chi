@@ -2,7 +2,7 @@ package std/lang
 
 import std/io { readString }
 
-fn load(filePath: string): any {
+pub fn load(filePath: string): any {
     val code = readString(filePath)
     eval(code)
 }
@@ -11,7 +11,7 @@ data Option[T] = Just(value: T) | Nothing
 data Result[T, E] = Ok(value: T) | Err(error: E)
 
 
-fn map[T,R](option: Option[T], f: (T) -> R): Option[R] {
+pub fn map[T,R](option: Option[T], f: (T) -> R): Option[R] {
     when {
         option is Just -> Just(f(option.value))
         else -> Nothing

@@ -2,7 +2,7 @@ package std/lang.interop
 
 data InteropValue(obj: any)
 
-fn showMembers(obj: any) {
+pub fn showMembers(obj: any) {
     val members = getMembers(obj, false)
     var index = 0
     while(index < members.size()) {
@@ -11,18 +11,18 @@ fn showMembers(obj: any) {
     }
 }
 
-fn lookup(name: string): InteropValue {
+pub fn lookup(name: string): InteropValue {
     InteropValue(lookupHostSymbol(name))
 }
 
-fn invoke(iv: InteropValue, name: string): InteropValue {
+pub fn invoke(iv: InteropValue, name: string): InteropValue {
     InteropValue(invokeMember(iv.obj, name, array(0,0)))
 }
 
-fn invoke(iv: InteropValue, name: string, args: array[any]): InteropValue {
+pub fn invoke(iv: InteropValue, name: string, args: array[any]): InteropValue {
     InteropValue(invokeMember(iv.obj, name, args))
 }
 
-fn asInt(iv: InteropValue): int {
+pub fn asInt(iv: InteropValue): int {
     iv.obj as int
 }

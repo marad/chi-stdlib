@@ -2,28 +2,28 @@ package std/collections.array
 
 import std/lang.unsafe { array as unsafeArray }
 
-fn arrayOf[T](): array[T] {
+pub fn arrayOf[T](): array[T] {
     unsafeArray[T](0)
 }
 
-fn arrayOf[T](e1: T): array[T] {
+pub fn arrayOf[T](e1: T): array[T] {
     array(1, e1)
 }
 
-fn arrayOf[T](e1: T, e2: T): array[T] {
+pub fn arrayOf[T](e1: T, e2: T): array[T] {
     val arr = array(2, e1)
     arr[1] = e2 
     arr
 }
 
-fn arrayOf[T](e1: T, e2: T, e3: T): array[T] {
+pub fn arrayOf[T](e1: T, e2: T, e3: T): array[T] {
     val arr = array(3, e1)
     arr[1] = e2 
     arr[2] = e3
     arr
 }
 
-fn arrayOf[T](e1: T, e2: T, e3: T, e4: T): array[T] {
+pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T): array[T] {
     val arr = array(4, e1)
     arr[1] = e2 
     arr[2] = e3
@@ -31,7 +31,7 @@ fn arrayOf[T](e1: T, e2: T, e3: T, e4: T): array[T] {
     arr
 }
 
-fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T): array[T] {
+pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T): array[T] {
     val arr = array(5, e1)
     arr[1] = e2 
     arr[2] = e3
@@ -40,7 +40,7 @@ fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T): array[T] {
     arr
 }
 
-fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T): array[T] {
+pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T): array[T] {
     val arr = array(6, e1)
     arr[1] = e2 
     arr[2] = e3
@@ -50,7 +50,7 @@ fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T): array[T] {
     arr
 }
 
-fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T): array[T] {
+pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T): array[T] {
     val arr = array(7, e1)
     arr[1] = e2 
     arr[2] = e3
@@ -62,7 +62,7 @@ fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T): array[T] {
 }
 
 
-fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T): array[T] {
+pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T): array[T] {
     val arr = array(8, e1)
     arr[1] = e2 
     arr[2] = e3
@@ -74,7 +74,7 @@ fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T): array[T] 
     arr
 }
 
-fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T): array[T] {
+pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T): array[T] {
     val arr = array(9, e1)
     arr[1] = e2 
     arr[2] = e3
@@ -88,7 +88,7 @@ fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T): ar
 }
 
 
-fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T): array[T] {
+pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T): array[T] {
     val arr = array(10, e1)
     arr[1] = e2 
     arr[2] = e3
@@ -102,7 +102,7 @@ fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10
     arr
 }
 
-fn map[T, R](arr: array[T], f: (T) -> R): array[R] {
+pub fn map[T, R](arr: array[T], f: (T) -> R): array[R] {
     val arrSize = size(arr)
     val result = unsafeArray[R](arrSize)
     var index = 0
@@ -115,7 +115,7 @@ fn map[T, R](arr: array[T], f: (T) -> R): array[R] {
     result
 }
 
-fn forEach[T](arr: array[T], f: (T) -> unit): unit {
+pub fn forEach[T](arr: array[T], f: (T) -> unit): unit {
     val arrSize = size(arr)
     var index = 0
     while(index < arrSize) {
@@ -125,7 +125,7 @@ fn forEach[T](arr: array[T], f: (T) -> unit): unit {
     }
 }
 
-fn fold[T, R](arr: array[T], initialValue: R, f: (R, T) -> R): R {
+pub fn fold[T, R](arr: array[T], initialValue: R, f: (R, T) -> R): R {
     var arrSize = size(arr)
     var index = 0
     var acc = initialValue

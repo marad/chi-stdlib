@@ -3,7 +3,7 @@ package std/collections.vector
 import std/lang.interop as iop
 import std/lang { load }
 
-fn l() {
+pub fn l() {
     load("chi-stdlib/std/collections/vector.chi")
 }
 
@@ -12,62 +12,62 @@ fn l() {
 data Vector[T] = Vector(inst: any)
 val JVector = iop.lookupHostSymbol("org.pcollections.TreePVector")
 
-fn empty[T](): Vector[T] {
+pub fn empty[T](): Vector[T] {
     Vector[T](iop.invokeMember(JVector, "empty", array(0,0)))
 }
 
-fn singleton[T](element: T): Vector[T] {
+pub fn singleton[T](element: T): Vector[T] {
     val args = array[any](1,0)
     args[0] = element
     Vector(iop.invokeMember(JVector, "singleton", args))
 }
 
-fn of[T](): Vector[T] {
+pub fn of[T](): Vector[T] {
     empty[T]()
 }
 
-fn of[T](e1: T): Vector[T] {
+pub fn of[T](e1: T): Vector[T] {
     singleton(e1)
 }
 
-fn of[T](e1: T, e2: T): Vector[T] {
+pub fn of[T](e1: T, e2: T): Vector[T] {
     of(e1).add(e2)
 }
 
 
-fn of[T](e1: T, e2: T, e3: T): Vector[T] {
+pub fn of[T](e1: T, e2: T, e3: T): Vector[T] {
     of(e1, e2).add(e3)
 }
 
-fn of[T](e1: T, e2: T, e3: T, e4: T): Vector[T] {
+pub fn of[T](e1: T, e2: T, e3: T, e4: T): Vector[T] {
     of(e1, e2, e3).add(e4)
 }
 
-fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T): Vector[T] {
+pub fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T): Vector[T] {
     of(e1, e2, e3, e4).add(e5)
 }
 
-fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T): Vector[T] {
+pub fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T): Vector[T] {
     of(e1, e2, e3, e4, e5).add(e6)
 }
 
-fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T): Vector[T] {
+pub fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T): Vector[T] {
     of(e1, e2, e3, e4, e5, e6).add(e7)
 }
 
-fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T): Vector[T] {
+pub fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T): Vector[T] {
     of(e1, e2, e3, e4, e5, e6, e7).add(e8)
 }
 
-fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T): Vector[T] {
+pub fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T): Vector[T] {
     of(e1, e2, e3, e4, e5, e6, e7, e8).add(e9)
 }
 
-fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T): Vector[T] {
+pub fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T): Vector[T] {
     of(e1, e2, e3, e4, e5, e6, e7, e8, e9).add(e10)
 }
 
-fn generate[T](initialValue: T, limit: int, nextValue: (T) -> T): Vector[T] {
+pub fn generate[T](initialValue: T, limit: int, nextValue: (T) -> T): Vector[T] {
     var index: int = 0
     var vector = vectorOf(initialValue)
     var lastValue = initialValue
@@ -80,9 +80,9 @@ fn generate[T](initialValue: T, limit: int, nextValue: (T) -> T): Vector[T] {
 }
 
 // TODO: fix lambda argument passing
-// fn range(start: int, step: int, end: int): Vector[int] {
+// pub fn range(start: int, step: int, end: int): Vector[int] {
 //     var nextItem = start
-//     val rangeGen = fn(): int {
+//     val rangeGen = pub fn(): int {
 //         val result = nextItem
 //         nextItem = nextItem + step
 //         result
@@ -91,34 +91,34 @@ fn generate[T](initialValue: T, limit: int, nextValue: (T) -> T): Vector[T] {
 //     generate(rangeGen, limit)
 // }
 
-fn contains[T](self: Vector[T], element: T): bool {
+pub fn contains[T](self: Vector[T], element: T): bool {
     iop.invokeMember(self.inst, "contains", arrayOf(element)) as bool
 }
 
-fn add[T](self: Vector[T], element: T): Vector[T] {
+pub fn add[T](self: Vector[T], element: T): Vector[T] {
     Vector(iop.invokeMember(self.inst, "plus", arrayOf(element)))
 }
 
-fn remove[T](self: Vector[T], element: T): Vector[T] {
+pub fn remove[T](self: Vector[T], element: T): Vector[T] {
     Vector(iop.invokeMember(self.inst, "minus", arrayOf(element)))
 }
 
-fn removeAt[T](self: Vector[T], index: int): Vector[T] {
+pub fn removeAt[T](self: Vector[T], index: int): Vector[T] {
     Vector(iop.invokeMember(self.inst, "minus", arrayOf(index)))
 }
 
-fn insertAt[T](self: Vector[T], index: int, element: T): Vector[T] {
+pub fn insertAt[T](self: Vector[T], index: int, element: T): Vector[T] {
     val args = array[any](2,0)
     args[0] = index
     args[1] = element
     Vector(iop.invokeMember(self.inst, "plus", args))
 }
 
-fn size[T](self: Vector[T]): int {
+pub fn size[T](self: Vector[T]): int {
     iop.invokeMember(self.inst, "size", array(0,0)) as int
 }
 
-fn get[T](self: Vector[T], index: int): Option[T] {
+pub fn get[T](self: Vector[T], index: int): Option[T] {
     if (index < 0 || index >= self.size()) {
         Nothing
     } else {
@@ -127,11 +127,11 @@ fn get[T](self: Vector[T], index: int): Option[T] {
     }
 }
 
-fn getOrElse[T](self: Vector[T], index: int, alternative: T): T {
+pub fn getOrElse[T](self: Vector[T], index: int, alternative: T): T {
     self.getOrElse(index, { alternative })
 }
 
-fn getOrElse[T](self: Vector[T], index: int, alternative: () -> T): T {
+pub fn getOrElse[T](self: Vector[T], index: int, alternative: () -> T): T {
     val opt = self.get(index)
     when {
         opt is Just -> opt.value as T
@@ -139,11 +139,11 @@ fn getOrElse[T](self: Vector[T], index: int, alternative: () -> T): T {
     }
 }
 
-fn forEach[T](self: Vector[T], f: (T) -> unit) {
+pub fn forEach[T](self: Vector[T], f: (T) -> unit) {
     iop.invokeMember(self.inst, "forEach", arrayOf(f))
 }
 
-fn fold[T, R](self: Vector[T], initialValue: R, f: (T, R) -> R): R {
+pub fn fold[T, R](self: Vector[T], initialValue: R, f: (T, R) -> R): R {
     var current = initialValue
     self.forEach({ it: T ->
         current = f(it, current)
@@ -151,13 +151,13 @@ fn fold[T, R](self: Vector[T], initialValue: R, f: (T, R) -> R): R {
     current
 }
 
-fn map[T, R](self: Vector[T], f: (T) -> R): Vector[R] {
+pub fn map[T, R](self: Vector[T], f: (T) -> R): Vector[R] {
     self.fold(empty[R](), { it: T, acc: Vector[R] ->
         acc.add(f(it))
     })
 }
 
-fn filter[T](self: Vector[T], f: (T) -> bool): Vector[T] {
+pub fn filter[T](self: Vector[T], f: (T) -> bool): Vector[T] {
     self.fold(empty[T](), { it: T, acc: Vector[T] ->
         if (f(it)) {
             acc.add(it)
@@ -167,11 +167,11 @@ fn filter[T](self: Vector[T], f: (T) -> bool): Vector[T] {
     })
 }
 
-fn filterNot[T](self: Vector[T], f: (T) -> bool): Vector[T] {
+pub fn filterNot[T](self: Vector[T], f: (T) -> bool): Vector[T] {
     self.filter({ it: T -> !f(it) })
 }
 
-fn filterJust[T](self: Vector[Option[T]]): Vector[T] {
+pub fn filterJust[T](self: Vector[Option[T]]): Vector[T] {
     self.fold(empty[T](), { it: Option[T], acc: Vector[T] ->
         if (it is Just) {
             acc.add(it.value)
@@ -181,6 +181,6 @@ fn filterJust[T](self: Vector[Option[T]]): Vector[T] {
     })
 }
 
-fn sum(self: Vector[int]): int {
+pub fn sum(self: Vector[int]): int {
     self.fold(0, { it: int, acc: int -> it + acc })
 }

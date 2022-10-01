@@ -1,18 +1,18 @@
 package std/math
 
-fn min(a: int, b: int): int {
+pub fn min(a: int, b: int): int {
     if (a < b) { a } else { b }
 }
 
-fn min(a: float, b: float): float {
+pub fn min(a: float, b: float): float {
     if (a < b) { a } else { b }
 }
 
 
-fn max(a: int, b: int): int {
+pub fn max(a: int, b: int): int {
     if (a > b) { a } else { b }
 }
 
-fn max(a: float, b: float): float {
+pub fn max(a: float, b: float): float {
     if (a > b) { a } else { b }
 }

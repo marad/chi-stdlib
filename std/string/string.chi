@@ -1,6 +1,6 @@
 package std/string
 
-fn reverse(s: string): string {
+pub fn reverse(s: string): string {
   val len = length(s)
   val oldCodePoints = codePoints(s)
   val newCodePoints = array[int](len, 0)
@@ -13,12 +13,12 @@ fn reverse(s: string): string {
 }
 
 
-fn isWhitespace(codePoint: int): bool {
+pub fn isWhitespace(codePoint: int): bool {
   (28 <= codePoint && codePoint <= 32) || (9 <= codePoint && codePoint <= 14)
 }
 
 
-fn trim(s: string): string {
+pub fn trim(s: string): string {
   val len = length(s)
   if (len > 0) {
     val points = codePoints(s)
@@ -42,7 +42,7 @@ fn trim(s: string): string {
 }
 
 
-fn trimStart(s: string): string {
+pub fn trimStart(s: string): string {
   val len = length(s)
   if (len > 0) {
     val points = codePoints(s)
@@ -62,7 +62,7 @@ fn trimStart(s: string): string {
 }
 
 
-fn trimEnd(s: string): string {
+pub fn trimEnd(s: string): string {
   val len = length(s)
   if (len > 0) {
     val points = codePoints(s)
@@ -77,7 +77,7 @@ fn trimEnd(s: string): string {
 }
 
 
-fn startsWith(haystack: string, needle: string): bool {
+pub fn startsWith(haystack: string, needle: string): bool {
   val haystackLen = length(haystack)
   val needleLen = length(needle)
   if (needleLen <= haystackLen) {
@@ -98,7 +98,7 @@ fn startsWith(haystack: string, needle: string): bool {
 }
 
 
-fn endsWith(haystack: string, needle: string): bool {
+pub fn endsWith(haystack: string, needle: string): bool {
   val haystackLen = length(haystack)
   val needleLen = length(needle)
   if (needleLen <= haystackLen) {
@@ -120,14 +120,14 @@ fn endsWith(haystack: string, needle: string): bool {
   }
 }
 
-fn isEmpty(s: string): bool {
+pub fn isEmpty(s: string): bool {
   length(s) == 0
 }
 
-fn isBlank(s: string): bool {
+pub fn isBlank(s: string): bool {
   isEmpty(trim(s))
 }
 
-fn concat(left: string, right: string): string {
+pub fn concat(left: string, right: string): string {
   left + right
 }
