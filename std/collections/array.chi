@@ -136,3 +136,18 @@ pub fn fold[T, R](arr: array[T], initialValue: R, f: (R, T) -> R): R {
     }
     acc
 }
+
+pub fn sum(arr: array[int]): int {
+    var sum = 0
+    var arrSize = size(arr)
+    var index = 0
+    while(index < arrSize) {
+        sum = sum + arr[index]
+        index = index + 1
+    }
+    sum
+}
+
+pub fn asInts(input: array[string]): array[int] {
+    input.map({ it: string -> it as int })
+}
