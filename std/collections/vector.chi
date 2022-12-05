@@ -114,6 +114,10 @@ pub fn insertAt[T](self: Vector[T], index: int, element: T): Vector[T] {
     Vector(iop.invokeMember(self.inst, "plus", args))
 }
 
+pub fn replaceAt[T](self: Vector[T], index: int, element: T): Vector[T] {
+    self.removeAt(index).insertAt(index, element)
+}
+
 pub fn size[T](self: Vector[T]): int {
     iop.invokeMember(self.inst, "size", array(0,0)) as int
 }
@@ -143,22 +147,22 @@ pub fn forEach[T](self: Vector[T], f: (T) -> unit) {
     iop.invokeMember(self.inst, "forEach", arrayOf(f))
 }
 
-pub fn fold[T, R](self: Vector[T], initialValue: R, f: (T, R) -> R): R {
+pub fn fold[T, R](self: Vector[T], initialValue: R, f: (R, T) -> R): R {
     var current = initialValue
     self.forEach({ it: T ->
-        current = f(it, current)
+        current = f(current, it)
     })
     current
 }
 
 pub fn map[T, R](self: Vector[T], f: (T) -> R): Vector[R] {
-    self.fold(empty[R](), { it: T, acc: Vector[R] ->
+    self.fold(empty[R](), { acc: Vector[R], it: T ->
         acc.add(f(it))
     })
 }
 
 pub fn filter[T](self: Vector[T], f: (T) -> bool): Vector[T] {
-    self.fold(empty[T](), { it: T, acc: Vector[T] ->
+    self.fold(empty[T](), { acc: Vector[T], it: T ->
         if (f(it)) {
             acc.add(it)
         } else {
@@ -172,7 +176,7 @@ pub fn filterNot[T](self: Vector[T], f: (T) -> bool): Vector[T] {
 }
 
 pub fn filterJust[T](self: Vector[Option[T]]): Vector[T] {
-    self.fold(empty[T](), { it: Option[T], acc: Vector[T] ->
+    self.fold(empty[T](), { acc: Vector[T], it: Option[T] ->
         if (it is Just) {
             acc.add(it.value)
         } else {
@@ -182,5 +186,5 @@ pub fn filterJust[T](self: Vector[Option[T]]): Vector[T] {
 }
 
 pub fn sum(self: Vector[int]): int {
-    self.fold(0, { it: int, acc: int -> it + acc })
+    self.fold(0, { acc: int, it: int -> it + acc })
 }

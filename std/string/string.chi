@@ -12,6 +12,19 @@ pub fn reverse(s: string): string {
   fromCodePoints(newCodePoints)
 }
 
+pub fn isBlank(s: string): bool {
+  var blank = true
+  val points = s.codePoints()
+  var index = 0
+  while(index < s.length()) {
+    if (!points[index].isWhitespace()) {
+      blank = false
+      break
+    }
+    index += 1
+  }
+  blank
+}
 
 pub fn isWhitespace(codePoint: int): bool {
   (28 <= codePoint && codePoint <= 32) || (9 <= codePoint && codePoint <= 14)
@@ -30,7 +43,7 @@ pub fn trim(s: string): string {
     while(end > 0 && isWhitespace(points[end])) {
       end = end - 1
     }
-    val substringLength = end - start + 1
+    val substringLength = (end - start) + 1
     if (substringLength > 0) {
       substring(s, start, substringLength)
     } else {
@@ -130,4 +143,12 @@ pub fn isBlank(s: string): bool {
 
 pub fn concat(left: string, right: string): string {
   left + right
+}
+
+pub fn indexOf(haystack: string, needle: string): int {
+  haystack.indexOf(needle, 0, haystack.length())
+}
+
+pub fn contains(haystack: string, needle: string): bool {
+  haystack.indexOf(needle) != -1
 }

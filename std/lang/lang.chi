@@ -7,8 +7,8 @@ pub fn load(filePath: string): any {
     eval(code)
 }
 
-data Option[T] = Just(value: T) | Nothing
-data Result[T, E] = Ok(value: T) | Err(error: E)
+data Option[T] = pub Just(pub value: T) | pub Nothing
+data Result[T, E] = pub Ok(pub value: T) | pub Err(pub error: E)
 
 
 pub fn map[T,R](option: Option[T], f: (T) -> R): Option[R] {

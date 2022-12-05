@@ -1,6 +1,7 @@
 package std/collections.array
 
 import std/lang.unsafe { array as unsafeArray }
+//import std/collections.set { Set }
 
 pub fn arrayOf[T](): array[T] {
     unsafeArray[T](0)
@@ -147,6 +148,15 @@ pub fn sum(arr: array[int]): int {
     }
     sum
 }
+
+// This needs set to be loaded first!
+//pub fn toSet[T](arr: array[T]): Set[T] {
+//    var s = setOf[T]()
+//    arr.forEach({ t: T ->
+//        s = s.add(t)
+//    })
+//    s
+//}
 
 pub fn asInts(input: array[string]): array[int] {
     input.map({ it: string -> it as int })
