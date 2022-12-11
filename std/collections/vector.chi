@@ -107,6 +107,14 @@ pub fn removeAt[T](self: Vector[T], index: int): Vector[T] {
     Vector(iop.invokeMember(self.inst, "minus", arrayOf(index)))
 }
 
+pub fn removeLast[T](self: Vector[T]): Vector[T] {
+    if (self.size() > 0) {
+        self.removeAt(self.size()-1)
+    } else {
+        self
+    }
+}
+
 pub fn insertAt[T](self: Vector[T], index: int, element: T): Vector[T] {
     val args = array[any](2,0)
     args[0] = index

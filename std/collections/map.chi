@@ -2,12 +2,13 @@ package std/collections.map
 
 import std/lang.interop as iop
 import std/lang { load }
+//import std/collections.set { Set }
 
 pub fn l() {
     load("chi-stdlib/std/collections/map.chi")
 }
 
-data HashMap[K, V] = HashMap(inst: any)
+data pub HashMap[K, V](inst: any)
 
 val JHashMap = iop.lookupHostSymbol("org.pcollections.HashTreePMap")
 
@@ -93,10 +94,14 @@ pub fn getOrElse[K,V](self: HashMap[K,V], key: K, alternative: () -> V): V {
     }
 }
 
-// pub fn mapKeys[K,V,R](self: HashMap[K,V], f: (K) -> R): HashMap[R,V] {
-//     val result = iop.invokeMember(self.inst, "mapKeys", arrayOf(f))
-//     HashMap[R, V](result)
-// }
+//pub fn keySet[K,V](self: HashMap[K,V]): Set[K] {
+//    Set(iop.invokeMember(self.inst, "keySet", arrayOf()))
+//}
+
+//pub fn mapKeys[K,V,R](self: HashMap[K,V], f: (K) -> R): HashMap[R,V] {
+//    val result = iop.invokeMember(self.inst, "mapKeys", arrayOf(f))
+//    HashMap[R, V](result)
+//}
 
 // pub fn mapValues[K,V,R](self: HashMap[K,V], f: (V) -> R): HashMap[K, R] {
 //     val result = iop.invokeMember(self.inst, "mapValues", arrayOf(f))

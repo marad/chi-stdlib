@@ -97,6 +97,11 @@ pub fn intersect[T](self: Set[T], other: Set[T]): Set[T] {
     Set[T](result)
 }
 
+pub fn union[T](self: Set[T], other: Set[T]): Set[T] {
+    val result = iop.invokeMember(self.inst, "plusAll", array(1, other.inst))
+    Set[T](result)
+}
+
 pub fn forEach[T, R](self: Set[T], f: (T) -> R): Set[R] {
     val result = iop.invokeMember(self.inst, "forEach", arrayOf(f))
     Set[T](result)
