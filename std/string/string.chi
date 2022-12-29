@@ -172,3 +172,17 @@ pub fn removePrefix(s: string, prefix: string): string {
     s
   }
 }
+
+pub fn substring(s: string, start: int): string {
+  s.substring(start, s.length()-start)
+}
+
+pub fn fold[T](s: string, initial: T,  f: (T, string) -> T): T {
+  var index = 0
+  var result: T = initial
+  while(index < s.length()) {
+    result = f(result, s[index])
+    index += 1
+  }
+  result
+}

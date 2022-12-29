@@ -103,10 +103,10 @@ pub fn getOrElse[K,V](self: HashMap[K,V], key: K, alternative: () -> V): V {
 //    HashMap[R, V](result)
 //}
 
-// pub fn mapValues[K,V,R](self: HashMap[K,V], f: (V) -> R): HashMap[K, R] {
-//     val result = iop.invokeMember(self.inst, "mapValues", arrayOf(f))
-//     HashMap[K,R](result)
-// }
+pub fn mapValues[K,V,R](self: HashMap[K,V], f: (V) -> R): HashMap[K, R] {
+    val result = iop.invokeMember(self.inst, "mapValues", arrayOf(f))
+    HashMap[K,R](result)
+}
 
 // pub fn map[K,V,R](self: HashMap[K,V], f: (V) -> R): HashMap[K,R] {
 //     mapValues(self, f)

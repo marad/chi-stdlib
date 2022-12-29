@@ -103,6 +103,42 @@ pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T,
     arr
 }
 
+pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T, e11: T): array[T] {
+    val arr = array(11, e1)
+    arr[1] = e2 
+    arr[2] = e3
+    arr[3] = e4
+    arr[4] = e5
+    arr[5] = e6
+    arr[6] = e7
+    arr[7] = e8
+    arr[8] = e9
+    arr[9] = e10
+    arr[10] = e11
+    arr
+}
+
+pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T, e11: T, e12:T, e13:T, e14:T, e15:T, e16:T): array[T] {
+    val arr = array(16, e1)
+    arr[1] = e2 
+    arr[2] = e3
+    arr[3] = e4
+    arr[4] = e5
+    arr[5] = e6
+    arr[6] = e7
+    arr[7] = e8
+    arr[8] = e9
+    arr[9] = e10
+    arr[10] = e11
+    arr[11] = e12
+    arr[12] = e13
+    arr[13] = e14
+    arr[14] = e15
+    arr[15] = e16
+    arr
+}
+
+
 pub fn map[T, R](arr: array[T], f: (T) -> R): array[R] {
     val arrSize = size(arr)
     val result = unsafeArray[R](arrSize)
@@ -147,6 +183,17 @@ pub fn sum(arr: array[int]): int {
         index = index + 1
     }
     sum
+}
+
+pub fn swapInPlace[T](arr: array[T], index1: int, index2: int): array[T] {
+    val tmp = arr[index1]
+    arr[index1] = (arr[index2])
+    arr[index2] = tmp
+    arr
+}
+
+pub fn clone[T](arr: array[T]): array[T] {
+    arr.map({ it: T -> it })
 }
 
 // This needs set to be loaded first!

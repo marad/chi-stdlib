@@ -11,9 +11,29 @@ data Option[T] = pub Just(pub value: T) | pub Nothing
 data Result[T, E] = pub Ok(pub value: T) | pub Err(pub error: E)
 
 
+pub fn map[T,E,R](result: Result[T,E], f: (T) -> R): Result[R,E] {
+    when {
+        result is Ok -> Ok(f(result.value))
+        else -> result as Result[R,E]
+    }
+}
+
 pub fn map[T,R](option: Option[T], f: (T) -> R): Option[R] {
     when {
         option is Just -> Just(f(option.value))
         else -> Nothing
+    }
+}
+
+pub fn factorial(i: int): int {
+    if (i <= 1) { 1}
+    else {
+        var f = 1
+        var c = i
+        while(c > 1) {
+            f = f * c
+            c -= 1
+        }
+        f
     }
 }

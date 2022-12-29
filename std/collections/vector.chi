@@ -99,6 +99,10 @@ pub fn add[T](self: Vector[T], element: T): Vector[T] {
     Vector(iop.invokeMember(self.inst, "plus", arrayOf(element)))
 }
 
+pub fn addAll[T](self: Vector[T], other: Vector[T]): Vector[T] {
+    other.fold(self, { acc: Vector[T], el: T -> acc.add(el) })
+}
+
 pub fn remove[T](self: Vector[T], element: T): Vector[T] {
     Vector(iop.invokeMember(self.inst, "minus", arrayOf(element)))
 }
@@ -151,6 +155,14 @@ pub fn getOrElse[T](self: Vector[T], index: int, alternative: () -> T): T {
     }
 }
 
+pub fn lastOrElse[T](self: Vector[T], alternative: T): T {
+    self.getOrElse(self.size()-1, alternative)
+}
+
+pub fn lastOrElse[T](self: Vector[T], alternative: () -> T): T {
+    self.getOrElse(self.size()-1, alternative)
+}
+
 pub fn forEach[T](self: Vector[T], f: (T) -> unit) {
     iop.invokeMember(self.inst, "forEach", arrayOf(f))
 }
@@ -191,6 +203,14 @@ pub fn filterJust[T](self: Vector[Option[T]]): Vector[T] {
             acc
         }
     })
+}
+
+pub fn tail[T](self: Vector[T]): Vector[T] {
+    if (self.size() > 1) {
+        self.removeAt(0)
+    } else {
+        empty[T]()
+    }
 }
 
 pub fn sum(self: Vector[int]): int {
