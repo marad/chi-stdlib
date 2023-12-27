@@ -1,0 +1,32 @@
+import std/io { readString }
+import std/lang { eval }
+
+fn load(filePath: string): any {
+    println("Loading $filePath...")
+    val code = readString(filePath)
+    eval(code)
+}
+
+
+// std/lang
+load("std/lang/lang.chi")
+load("std/lang/interop.chi")
+
+// std/collections
+load("std/collections/array.chi")
+load("std/collections/arraylist.chi")
+load("std/collections/filoqueue.chi")
+load("std/collections/iterator.chi")
+load("std/collections/linkedlist.chi")
+load("std/collections/map.chi")
+load("std/collections/priorityqueue.chi")
+load("std/collections/set.chi")
+
+// std/math
+load("std/math/math.chi")
+load("std/math/bigdecimal.chi")
+
+// std/string
+load("std/string/string.chi")
+
+saveModule("std", "std.chim")
