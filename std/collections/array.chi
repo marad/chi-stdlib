@@ -1,10 +1,118 @@
 package std/collections.array
 
-import std/lang.unsafe { array as unsafeArray }
-//import std/collections.set { Set }
+fn removeLast[T](arr: array[T]): T {
+    val idx = arr.size() - 1
+    val result = arr[idx]
+    arr.removeAt(idx)
+    result
+}
+
+fn push[T](stack: array[T], value: T) {
+    stack.add(value)
+}
+
+fn pop[T](stack: array[T]): T {
+    stack.removeLast()
+}
+
+pub fn any[T](arr: array[T], f: (T) -> bool): bool {
+    var result = false
+    var i = 0
+    while (i < arr.size()) {
+        result = result || f(arr[i])
+        i += 1
+    }
+    result
+}
+
+pub fn all[T](arr: array[T], f: (T) -> bool): bool {
+    var result = true
+    var i = 0
+    while (i < arr.size()) {
+        result = result && f(arr[i])
+        i += 1
+    }
+    result
+}
+
+pub fn first[T](arr: array[T]): Option[T] {
+    if (arr.size() > 0) {
+        Just(arr[0])
+    } else {
+        Nothing
+    }
+}
+
+pub fn last[T](arr: array[T]): Option[T] {
+    val size = arr.size()
+    if (size > 0) {
+        Just(arr[arr.size()-1])
+    } else {
+        Nothing
+    }
+}
+
+pub fn reverse[T](arr: array[T]): array[T] {
+    val size = arr.size()
+    if (size == 0) {
+        arr
+    } else {
+        val el = arr[0]
+        val result = array(arr.size(), el)
+        var i = 0
+        while (i < size) {
+            result[i] = (arr[size - i - 1])
+            i += 1
+        }
+        result
+    }
+}
+
+pub fn sort[T](arr: array[T], cmp: (T,T) -> int) {
+    quicksort(arr, cmp, 0, arr.size()-1)
+}
+
+fn quicksort[T](arr: array[T], cmp: (T, T) -> int, from: int, to: int) {
+    if (from >= 0 && to >= 0 && from < to) {
+        val p = partition(arr, cmp, from, to)
+        quicksort(arr, cmp, from, p)
+        quicksort(arr, cmp, p + 1, to)
+    }
+}
+
+fn partition[T](arr: array[T], cmp: (T,T) -> int, from: int, to: int): int {
+    val pivotIndex = ((to-from) / 2) + from
+    val pivot: T = arr[pivotIndex]
+
+    var i = from - 1
+    var j = to + 1
+
+    var result = 0
+    while (true) {
+        i += 1
+        while (cmp(arr[i], pivot) < 0) {
+            i += 1
+        }
+
+        j -= 1
+        while (cmp(arr[j], pivot) > 0) {
+            j -= 1
+        }
+
+        if (i >= j) {
+            result = j
+            break
+        }
+
+        val tmp: T = arr[i]
+        arr[i] = (arr[j])
+        arr[j] = tmp
+    }
+    result
+}
 
 pub fn arrayOf[T](): array[T] {
-    unsafeArray[T](0)
+    emptyArray[T]()
 }
 
 pub fn arrayOf[T](e1: T): array[T] {
@@ -12,141 +120,68 @@ pub fn arrayOf[T](e1: T): array[T] {
 }
 
 pub fn arrayOf[T](e1: T, e2: T): array[T] {
-    val arr = array(2, e1)
-    arr[1] = e2 
+    val arr = arrayOf(e1)
+    arr.add(e2)
     arr
 }
 
 pub fn arrayOf[T](e1: T, e2: T, e3: T): array[T] {
-    val arr = array(3, e1)
-    arr[1] = e2 
-    arr[2] = e3
+    val arr = arrayOf(e1, e2)
+    arr.add(e3)
     arr
 }
 
 pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T): array[T] {
-    val arr = array(4, e1)
-    arr[1] = e2 
-    arr[2] = e3
-    arr[3] = e4
+    val arr = arrayOf(e1, e2, e3)
+    arr.add(e4)
     arr
 }
 
 pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T): array[T] {
-    val arr = array(5, e1)
-    arr[1] = e2 
-    arr[2] = e3
-    arr[3] = e4
-    arr[4] = e5
+    val arr = arrayOf(e1, e2, e3, e4)
+    arr.add(e5)
     arr
 }
 
 pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T): array[T] {
-    val arr = array(6, e1)
-    arr[1] = e2 
-    arr[2] = e3
-    arr[3] = e4
-    arr[4] = e5
-    arr[5] = e6
+    val arr = arrayOf(e1, e2, e3, e4, e5)
+    arr.add(e6)
     arr
 }
 
 pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T): array[T] {
-    val arr = array(7, e1)
-    arr[1] = e2 
-    arr[2] = e3
-    arr[3] = e4
-    arr[4] = e5
-    arr[5] = e6
-    arr[6] = e7
+    val arr = arrayOf(e1, e2, e3, e4, e5, e6)
+    arr.add(e7)
     arr
 }
 
 
 pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T): array[T] {
-    val arr = array(8, e1)
-    arr[1] = e2 
-    arr[2] = e3
-    arr[3] = e4
-    arr[4] = e5
-    arr[5] = e6
-    arr[6] = e7
-    arr[7] = e8
+    val arr = arrayOf(e1, e2, e3, e4, e5, e6, e7)
+    arr.add(e8)
     arr
 }
 
 pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T): array[T] {
-    val arr = array(9, e1)
-    arr[1] = e2 
-    arr[2] = e3
-    arr[3] = e4
-    arr[4] = e5
-    arr[5] = e6
-    arr[6] = e7
-    arr[7] = e8
-    arr[8] = e9
+    val arr = arrayOf(e1, e2, e3, e4, e5, e6, e7, e8)
+    arr.add(e9)
     arr
 }
 
 
 pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T): array[T] {
-    val arr = array(10, e1)
-    arr[1] = e2 
-    arr[2] = e3
-    arr[3] = e4
-    arr[4] = e5
-    arr[5] = e6
-    arr[6] = e7
-    arr[7] = e8
-    arr[8] = e9
-    arr[9] = e10
+    val arr = arrayOf(e1, e2, e3, e4, e5, e6, e7, e8, e9)
+    arr.add(e10)
     arr
 }
-
-pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T, e11: T): array[T] {
-    val arr = array(11, e1)
-    arr[1] = e2 
-    arr[2] = e3
-    arr[3] = e4
-    arr[4] = e5
-    arr[5] = e6
-    arr[6] = e7
-    arr[7] = e8
-    arr[8] = e9
-    arr[9] = e10
-    arr[10] = e11
-    arr
-}
-
-pub fn arrayOf[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T, e11: T, e12:T, e13:T, e14:T, e15:T, e16:T): array[T] {
-    val arr = array(16, e1)
-    arr[1] = e2 
-    arr[2] = e3
-    arr[3] = e4
-    arr[4] = e5
-    arr[5] = e6
-    arr[6] = e7
-    arr[7] = e8
-    arr[8] = e9
-    arr[9] = e10
-    arr[10] = e11
-    arr[11] = e12
-    arr[12] = e13
-    arr[13] = e14
-    arr[14] = e15
-    arr[15] = e16
-    arr
-}
-
 
 pub fn map[T, R](arr: array[T], f: (T) -> R): array[R] {
     val arrSize = size(arr)
-    val result = unsafeArray[R](arrSize)
+    val result = emptyArray[R]()
     var index = 0
     while(index < arrSize) {
         val element = arr[index]
-        val tmp = f(element)
-        result[index] = tmp
+        result.add(f(element))
         index = index + 1
     }
     result
@@ -185,7 +220,7 @@ pub fn sum(arr: array[int]): int {
     sum
 }
 
-pub fn swapInPlace[T](arr: array[T], index1: int, index2: int): array[T] {
+pub fn swap[T](arr: array[T], index1: int, index2: int): array[T] {
     val tmp = arr[index1]
     arr[index1] = (arr[index2])
     arr[index2] = tmp

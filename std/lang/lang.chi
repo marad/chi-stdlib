@@ -9,12 +9,16 @@ pub fn load(filePath: string): any {
 
 data Option[T] = pub Just(pub value: T) | pub Nothing
 data Result[T, E] = pub Ok(pub value: T) | pub Err(pub error: E)
+data pub Pair[L,R](pub left: L, pub right: R)
 
+pub fn unwrap[T](opt: Option[T]): T {
+    (opt as Just).value
+}
 
-pub fn map[T,E,R](result: Result[T,E], f: (T) -> R): Result[R,E] {
+pub fn or[T](opt: Option[T], other: Option[T]): Option[T] {
     when {
-        result is Ok -> Ok(f(result.value))
-        else -> result as Result[R,E]
+        opt is Just -> opt
+        else -> other
     }
 }
 
@@ -25,15 +29,10 @@ pub fn map[T,R](option: Option[T], f: (T) -> R): Option[R] {
     }
 }
 
-pub fn factorial(i: int): int {
-    if (i <= 1) { 1}
-    else {
-        var f = 1
-        var c = i
-        while(c > 1) {
-            f = f * c
-            c -= 1
-        }
-        f
+
+pub fn map[T,E,R](result: Result[T,E], f: (T) -> R): Result[R,E] {
+    when {
+        result is Ok -> Ok(f(result.value))
+        else -> result as Result[R,E]
     }
 }

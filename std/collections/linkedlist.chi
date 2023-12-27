@@ -1,0 +1,105 @@
+package std/collections.list.linked
+
+import std/lang.interop as iop 
+
+data pub LinkedList[T](impl: any)
+
+pub fn newLinkedList[T](): LinkedList[T] {
+    val JavaClass = iop.lookupHostSymbol("java.util.LinkedList")
+    LinkedList(iop.newInstance(JavaClass, arrayOf()))
+}
+
+pub fn add[T](list: LinkedList[T], el: T): LinkedList[T] {
+    iop.invokeMember(list.impl, "add", arrayOf(el))
+    list
+}
+
+pub fn add[T](list: LinkedList[T], index: int, el: T): LinkedList[T] {
+    val args = array[any](2, index)
+    args[1] = el
+    iop.invokeMember(list.impl, "add", args)
+    list
+}
+
+pub fn get[T](list: LinkedList[T], index: int): Option[T] {
+    val value = iop.invokeMember(list.impl, "get", arrayOf(index))
+    if (iop.isNull(value)) {
+        Nothing
+    } else {
+        Just(value)
+    }
+}
+
+pub fn getOrDefault[T](list: LinkedList[T], index: int, default: T): T {
+    val value = iop.invokeMember(list.impl, "get", arrayOf(index))
+    if (iop.isNull(value)) {
+        default
+    } else {
+        value as T
+    }
+}
+
+pub fn unsafeGet[T](list: LinkedList[T], index: int): T {
+    iop.invokeMember(list.impl, "get", arrayOf(index)) as T
+}
+
+pub fn set[T](list: LinkedList[T], index: int, value: T) {
+    var args = array[any](2, index)
+    args[1] = value
+    iop.invokeMember(list.impl, "set", args)
+}
+
+pub fn indexOf[T](list: LinkedList[T], element: T): int {
+    var args = array[any](1, element)
+    iop.invokeMember(list.impl, "indexOf", args) as int
+}
+
+pub fn lastIndexOf[T](list: LinkedList[T], element: T): int {
+    var args = array[any](1, element)
+    iop.invokeMember(list.impl, "lastIndexOf", args) as int
+}
+
+pub fn contains[T](list: LinkedList[T], el: T): bool {
+    iop.invokeMember(list.impl, "contains", arrayOf(el)) as bool
+}
+
+pub fn remove[T](list: LinkedList[T]): T {
+    iop.invokeMember(list.impl, "remove", arrayOf()) as T
+}
+
+pub fn remove[T](list: LinkedList[T], index: int): T {
+    iop.invokeMember(list.impl, "remove", arrayOf(index)) as T
+}
+
+pub fn clear[T](list: LinkedList[T]) {
+    iop.invokeMember(list.impl, "clear", arrayOf())
+}
+
+pub fn size[T](list: LinkedList[T]): int {
+    iop.invokeMember(list.impl, "size", arrayOf()) as int
+}
+
+pub fn toArray[T](list: LinkedList[T]): array[T] {
+    iop.invokeMember(list.impl, "toArray", arrayOf()) as array
+}
+
+pub fn peek[T](list: LinkedList[T]): T {
+    iop.invokeMember(list.impl, "peek", arrayOf()) as T
+}
+
+pub fn pop[T](list: LinkedList[T]): T {
+    iop.invokeMember(list.impl, "pop", arrayOf()) as T
+}
+
+pub fn push[T](list: LinkedList[T], el: T) {
+    iop.invokeMember(list.impl, "push", arrayOf(el))
+}
+
+pub fn addFirst[T](list: LinkedList[T], el: T) {
+    iop.invokeMember(list.impl, "addFirst", arrayOf(el))
+}
+
+pub fn addLast[T](list: LinkedList[T], el: T) {
+    iop.invokeMember(list.impl, "addLast", arrayOf(el))
+}
+

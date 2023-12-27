@@ -1,0 +1,41 @@
+package std/collections.queue.filo
+
+import std/collections.arraylist as list { ArrayList }
+
+
+data pub FiloQueue[T](pub list: ArrayList[T])
+
+pub fn of[T](): FiloQueue { FiloQueue(list.of()) }
+
+pub fn of[T](el: T): FiloQueue { FiloQueue(list.of(el)) }
+
+pub fn peek[T](q: FiloQueue[T]): Option[T] { q.list.get(q.list.size()-1) }
+
+pub fn pop[T](q: FiloQueue[T]): Option[T] { 
+    val size = q.list.size()
+    if (size == 0) { Nothing }
+    else {
+        val result = q.list.get(size-1) 
+        q.list.remove(size-1)
+        result
+    }
+}
+
+pub fn usafePop[T](q: FiloQueue[T]): T {
+    val idx = q.list.size()-1
+    val result = q.list.unsafeGet(idx)
+    q.list.remove(idx)
+    result
+}
+
+pub fn push[T](q: FiloQueue[T], el: T) { 
+    q.list.add(el)
+}
+
+pub fn size[T](q: FiloQueue[T]): int {
+    q.list.size()
+}
+
+pub fn contains[T](q: FiloQueue[T], t: T): bool {
+    q.list.contains(t)
+}

@@ -1,0 +1,74 @@
+package std/math
+
+pub fn min(a: int, b: int): int {
+    if (a < b) { a } else { b }
+}
+
+pub fn min(a: float, b: float): float {
+    if (a < b) { a } else { b }
+}
+
+
+pub fn max(a: int, b: int): int {
+    if (a > b) { a } else { b }
+}
+
+pub fn max(a: float, b: float): float {
+    if (a > b) { a } else { b }
+}
+
+pub fn abs(a: int): int {
+    if a < 0 { -a }
+    else { a }
+}
+
+pub fn abs(a: float): float {
+    if a < 0 { -a }
+    else { a }
+}
+
+pub fn sqr(base: int, x:int): int {
+    var a = 1
+    var b = x - 1
+    while(b >= 0) {
+        a *= base
+        b -= 1
+    }
+    a
+}
+
+pub fn greatestCommonDivisor(a: int, b: int): int {
+    var bigger = max(a,b)
+    var smaller = min(a,b)
+
+    var tmp = 0
+    while((tmp = bigger % smaller) != 0) {
+        bigger = max(tmp, smaller)
+        smaller = min(tmp, smaller)
+    }
+
+    smaller
+}
+
+
+pub fn lowestCommonMultiple(a: int, b: int): int {
+    abs(a*b) / greatestCommonDivisor(a,b)
+}
+
+
+pub fn gcd(a: int, b: int): int { greatestCommonDivisor(a,b) }
+
+pub fn lcm(a: int, b: int): int { lowestCommonMultiple(a,b) }
+
+pub fn factorial(i: int): int {
+    if (i <= 1) { 1 }
+    else {
+        var f = 1
+        var c = i
+        while(c > 1) {
+            f = f * c
+            c -= 1
+        }
+        f
+    }
+}

@@ -1,0 +1,58 @@
+package std/math.bigdecimal
+
+import std/lang.interop as iop
+
+data pub BigDecimal(impl:any)
+
+// pub val zero = of(0)
+// pub val one = of(1)
+
+
+pub fn of(s: string): BigDecimal {
+    val BigDecimalClass = iop.lookupHostSymbol("java.math.BigDecimal")
+    BigDecimal(iop.newInstance(BigDecimalClass, arrayOf(s)))
+}
+
+pub fn of(s: int): BigDecimal {
+    val BigDecimalClass = iop.lookupHostSymbol("java.math.BigDecimal")
+    BigDecimal(iop.newInstance(BigDecimalClass, arrayOf(s)))
+}
+
+pub fn add(bd: BigDecimal, other: BigDecimal): BigDecimal {
+    val args = array(1, other.impl)
+    val result = iop.invokeMember(bd.impl, "add", args)
+    BigDecimal(result)
+}
+
+pub fn subtract(bd: BigDecimal, other: BigDecimal): BigDecimal {
+    val args = array(1, other.impl)
+    val result = iop.invokeMember(bd.impl, "subtract", args)
+    BigDecimal(result)
+}
+
+pub fn multiply(bd: BigDecimal, other: BigDecimal): BigDecimal {
+    val args = array(1, other.impl)
+    val result = iop.invokeMember(bd.impl, "multiply", args)
+    BigDecimal(result)
+}
+
+pub fn compareTo(bd: BigDecimal, other: BigDecimal): int {
+    val args = array(1, other.impl)
+    iop.invokeMember(bd.impl, "compareTo", args) as int
+}
+
+pub fn lte(bd: BigDecimal, other: BigDecimal): bool {
+    bd.compareTo(other) <= 0
+}
+
+pub fn lt(bd: BigDecimal, other: BigDecimal): bool {
+    bd.compareTo(other) < 0
+}
+
+pub fn gte(bd: BigDecimal, other: BigDecimal): bool {
+    bd.compareTo(other) >= 0
+}
+
+pub fn gt(bd: BigDecimal, other: BigDecimal): bool {
+    bd.compareTo(other) > 0
+}

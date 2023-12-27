@@ -1,0 +1,17 @@
+package std/collections.iterator
+
+import std/lang.interop as iop
+
+data pub Iterator[T](impl: any)
+
+pub fn hasNext[T](iter: Iterator[T]): bool {
+    iop.invokeMember(iter.impl, "hasNext", arrayOf()) as bool
+}
+
+pub fn next[T](iter: Iterator[T]): T {
+    iop.invokeMember(iter.impl, "next", arrayOf()) as T
+}
+
+pub fn remove[T](iter: Iterator[T]) {
+    iop.invokeMember(iter.impl, "remove", arrayOf()) 
+}

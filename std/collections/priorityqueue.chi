@@ -1,0 +1,70 @@
+package std/collections.queue.priority
+
+import std/collections.arraylist { newArrayList, ArrayList }
+
+data pub PriorityQueue[T](pub heap: ArrayList[T], pub comparator: (T, T) -> int)
+
+pub fn newPriorityQueue[T](comparator: (T, T) -> int): PriorityQueue[T] {
+    val pq = PriorityQueue(newArrayList[T]() as ArrayList, comparator as (int,int)->int)
+    pq as PriorityQueue
+}
+
+pub fn add[T](pq: PriorityQueue, value: T) {
+    pq.insert(value)
+}
+
+pub fn insert[T](pq: PriorityQueue, value: T) {
+    pq.heap.add(value)
+    var idx = pq.heap.size() - 1
+    while (idx != 0) {
+        val parentIdx = (idx - 1) / 2
+        val parent = pq.heap.unsafeGet(parentIdx)
+        if ((pq.comparator)(parent, value) < 0) {
+            pq.heap.set(parentIdx, value)
+            pq.heap.set(idx, parent)
+            idx = parentIdx
+        } else {
+            break
+        }
+    }
+}
+
+pub fn peek[T](pq: PriorityQueue): Option[T] {
+    pq.heap.get(0)
+}
+
+pub fn pop[T](pq: PriorityQueue): T {
+    val maxNode = pq.heap.unsafeGet(0)
+    pq.heap.set(0, pq.heap.unsafeGet(pq.heap.size() - 1))
+    pq.heap.remove(pq.heap.size() - 1)
+
+    var idx = 0
+    while (idx < pq.heap.size()) {
+        val leftChildIdx = (idx * 2) + 1
+        val rightChildIdx = (idx * 2) + 2
+        var largerChildIdx = leftChildIdx
+
+
+        if (rightChildIdx < pq.heap.size() && (pq.comparator)(pq.heap.unsafeGet(rightChildIdx), pq.heap.unsafeGet(leftChildIdx)) > 0) {
+            largerChildIdx = rightChildIdx
+        }
+
+        if (largerChildIdx < pq.heap.size() && (pq.comparator)(pq.heap.unsafeGet(largerChildIdx), pq.heap.unsafeGet(idx)) > 0) {
+            val largerChild = pq.heap.unsafeGet(largerChildIdx)
+            pq.heap.set(largerChildIdx, pq.heap.unsafeGet(idx))
+            pq.heap.set(idx, largerChild)
+            idx = largerChildIdx
+        } else {
+            break
+        }
+    }
+    maxNode
+}
+
+pub fn size[T](pq: PriorityQueue): int {
+    pq.heap.size()
+}
+
+pub fn contains[T](pq: PriorityQueue, value: T): bool {
+    pq.heap.contains(value)
+}

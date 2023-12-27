@@ -1,5 +1,6 @@
 package std/collections.set
 
+import std/collections.iterator { Iterator }
 import std/lang.interop as iop
 import std/lang { load }
 
@@ -7,132 +8,148 @@ pub fn l() {
     load("chi-stdlib/std/collections/set.chi")
 }
 
-data Set[T] = Set(inst: any)
+data pub Set[T](impl: any)
 
-val JavaType = iop.lookupHostSymbol("org.pcollections.HashTreePSet")
-
-pub fn empty[T](): Set[T] {
-    Set[T](iop.invokeMember(JavaType, "empty", array(0,0))) 
+pub fn newSet[T](): Set[T] {
+    val HashSet = iop.lookupHostSymbol("java.util.HashSet")
+    val impl = iop.invokeMember(HashSet, "newHashSet", arrayOf(0))
+    Set(impl)
 }
 
-pub fn singleton[T](element: T): Set[T] {
-    Set[T](iop.invokeMember(JavaType, "singleton", array(1, element)))
+pub fn add[T](set: Set[T], t: T) {
+    iop.invokeMember(set.impl, "add", arrayOf(t))
+}
+
+pub fn remove[T](set: Set[T], t: T) {
+    iop.invokeMember(set.impl, "remove", arrayOf(t))
+}
+
+pub fn size[T](set: Set[T]): int {
+    iop.invokeMember(set.impl, "size", arrayOf()) as int
+}
+
+pub fn contains[T](set: Set[T], t: T): bool {
+    iop.invokeMember(set.impl, "contains", arrayOf(t)) as bool
+}
+
+pub fn toArray[T](set: Set[T]): array[T] {
+    iop.invokeMember(set.impl, "toArray", arrayOf()) as array
+}
+
+pub fn iterator[T](set: Set[T]): Iterator[T] {
+    val iter = iop.invokeMember(set.impl, "iterator", arrayOf())
+    Iterator(iter)
+}
+
+pub fn clear[T](set: Set[T]) {
+    iop.invokeMember(set.impl, "clear", arrayOf())
+}
+
+pub fn any[T](set: Set[T], f: (T) -> bool): bool {
+    var result = false
+    var iter = set.iterator()
+    while (iter.hasNext()) {
+        result = result || f(iter.next())
+    }
+    result
+}
+
+pub fn all[T](set: Set[T], f: (T) -> bool): bool {
+    var result = true
+    var iter = set.iterator()
+    while (iter.hasNext()) {
+        val el = iter.next()
+        result = result && f(el)
+    }
+    result
+}
+
+pub fn forEach[T](set: Set[T], f: (T) -> unit) {
+    var result = true
+    var iter = set.iterator()
+    while (iter.hasNext()) {
+        f(iter.next())
+    }
 }
 
 pub fn of[T](): Set[T] {
-    empty()
+    newSet()
 }
 
 pub fn of[T](e: T): Set[T] {
-    singleton(e)
+    val s = newSet()
+    s.add(e)
+    s
 }
 
 pub fn of[T](e1: T, e2: T): Set[T] {
-    of(e1).add(e2)
+    val s = newSet()
+    s.add(e1)
+    s.add(e2)
+    s
 }
 
 pub fn of[T](e1: T, e2: T, e3: T): Set[T] {
-    of(e1, e2).add(e3)
+    val s = newSet()
+    s.add(e1)
+    s.add(e2)
+    s.add(e3)
+    s
 }
 
 pub fn of[T](e1: T, e2: T, e3: T, e4: T): Set[T] {
-    of(e1, e2, e3).add(e4)
+    val s = newSet()
+    s.add(e1)
+    s.add(e2)
+    s.add(e3)
+    s.add(e4)
+    s
 }
 
 pub fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T): Set[T] {
-    of(e1, e2, e3, e4).add(e5)
+    val s = newSet()
+    s.add(e1)
+    s.add(e2)
+    s.add(e3)
+    s.add(e4)
+    s.add(e5)
+    s
+
 }
 
 pub fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T): Set[T] {
-    of(e1, e2, e3, e4, e5).add(e6)
+    val s = newSet()
+    s.add(e1)
+    s.add(e2)
+    s.add(e3)
+    s.add(e4)
+    s.add(e5)
+    s.add(e6)
+    s
 }
 
 pub fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T): Set[T] {
-    of(e1, e2, e3, e4, e5, e6).add(e7)
+    val s = of(e1, e2, e3, e4, e5, e6)
+    s.add(e7)
+    s
 }
 
 
 pub fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T): Set[T] {
-    of(e1, e2, e3, e4, e5, e6, e7).add(e8)
+    val s = of(e1, e2, e3, e4, e5, e6, e7)
+    s.add(e8)
+    s
 }
 
 pub fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T): Set[T] {
-    of(e1, e2, e3, e4, e5, e6, e7, e8).add(e9)
+    val s = of(e1, e2, e3, e4, e5, e6, e7, e8)
+    s.add(e9)
+    s
 }
 
 pub fn of[T](e1: T, e2: T, e3: T, e4: T, e5: T, e6: T, e7: T, e8: T, e9: T, e10: T): Set[T] {
-    of(e1, e2, e3, e4, e5, e6, e7, e8, e9).add(e10)
+    val s = of(e1, e2, e3, e4, e5, e6, e7, e8, e9)
+    s.add(e10)
+    s
 }
 
-
-pub fn contains[T](self: Set[T], value: T): bool {
-    val result = iop.invokeMember(self.inst, "contains", array(1,value))
-    result as bool
-}
-
-
-pub fn isEmpty[T](self: Set[T]): bool {
-    val result = iop.invokeMember(self.inst, "isEmpty", array(0,0))
-    result as bool
-}
-
-
-pub fn size[T](self: Set[T]): int {
-    val result = iop.invokeMember(self.inst, "size", array(0,0))
-    result as int
-}
-
-pub fn add[T](self: Set[T], value: T): Set[T] {
-    val result = iop.invokeMember(self.inst, "plus", array(1, value))
-    Set[T](result)
-}
-
-pub fn remove[T](self: Set[T], value: T): Set[T] {
-    val result = iop.invokeMember(self.inst, "minus", array(1, value))
-    Set[T](result)
-}
-
-pub fn intersect[T](self: Set[T], other: Set[T]): Set[T] {
-    val result = iop.invokeMember(self.inst, "intersect", array(1, other.inst))
-    Set[T](result)
-}
-
-pub fn union[T](self: Set[T], other: Set[T]): Set[T] {
-    val result = iop.invokeMember(self.inst, "plusAll", array(1, other.inst))
-    Set[T](result)
-}
-
-pub fn forEach[T, R](self: Set[T], f: (T) -> R): Set[R] {
-    val result = iop.invokeMember(self.inst, "forEach", arrayOf(f))
-    Set[T](result)
-}
-
-pub fn map[T, R](self: Set[T], f: (T) -> R): Set[R] {
-    var result = empty[R]()
-    self.forEach({ element: T ->
-        result = result.add(f(element))
-    })
-    result
-}
-
-pub fn filter[T](self: Set[T], f: (T) -> bool): Set[T] {
-    var result = empty[T]()
-    self.forEach({ element: T ->
-        if (f(element)) {
-            result = result.add(element)
-        }
-    })
-    result
-}
-
-pub fn first[T](self: Set[T]): Option[T] {
-    val value = if (self.size() > 0) {
-        val iter = iop.invokeMember(self.inst, "iterator", array(0,0))
-        Just(iop.invokeMember(iter, "next", array(0,0)))
-    } else {
-        Nothing
-    }
-    value as Option
-}
-
-// TODO: flatMap, fold, reduce, first, nth
